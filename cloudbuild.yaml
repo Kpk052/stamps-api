@@ -1,21 +1,40 @@
-options:
-  logging: CLOUD_LOGGING_ONLY
-
 steps:
+# Step 1 — Build the jar
+- name: maven:3.9.6-eclipse-temurin-17
+  entrypoint: mvn
+  args: ["clean", "package", "-DskipTests"]
 
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'asia-south1-docker.pkg.dev/$PROJECT_ID/stamps-repo/stamps-app', '.']
+# Step 2 — Build Docker image
+- name: gcr.io/cloud-builders/docker
+  args:
+    [
+      "build",
+      "-t",
+      "asia-south1-docker.pkg.dev/project-5176d167-2b21-4712-a35/stamps-repo/stamps-app",
+      "."
+    ]
 
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'asia-south1-docker.pkg.dev/$PROJECT_ID/stamps-repo/stamps-app']
+# Step 3 — Push Docker image
+- name: gcr.io/cloud-builders/docker
+  args:
+    [
+      "push",
+      "asia-south1-docker.pkg.dev/project-5176d167-2b21-4712-a35/stamps-repo/stamps-app"
+    ]
 
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+# Step 4 — Deploy to Cloud Run
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: gcloud
   args:
-    - run
-    - deploy
-    - stamps-new
-    - --image=asia-south1-docker.pkg.dev/$PROJECT_ID/stamps-repo/stamps-app
-    - --region=asia-south1
-    - --platform=managed
-    - --allow-unauthenticated
+    [
+      "run",
+      "deploy",
+      "stamps",
+      "--image=asia-south1-docker.pkg.dev/project-5176d167-2b21-4712-a35/stamps-repo/stamps-app",
+      "--region=asia-south1",
+      "--platform=managed",
+      "--allow-unauthenticated"
+    ]
+
+images:
+- asia-south1-docker.pkg.dev/project-5176d167-2b21-4712-a35/stamps-repo/stamps-app
