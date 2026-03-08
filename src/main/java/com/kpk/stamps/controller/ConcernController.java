@@ -61,4 +61,9 @@ public class ConcernController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/hello")
+    public String getHello(){
+        return "Hello Pawan"
+    }
+
 }
