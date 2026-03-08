@@ -37,7 +37,8 @@ steps:
       '--image=asia-south1-docker.pkg.dev/$PROJECT_ID/stamps-repo/stamps-app',
       '--region=asia-south1',
       '--platform=managed',
-      '--allow-unauthenticated'
+      '--allow-unauthenticated',
+      '--add-cloudsql-instances=project-5176d167-2b21-4712-a35:asia-south1:demoprojectdb'
     ]
 
 images:
