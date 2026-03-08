@@ -14,7 +14,7 @@ steps:
   args:
     - run
     - deploy
-    - stamps-private
+    - stamps-new
     - --image=asia-south1-docker.pkg.dev/$PROJECT_ID/stamps-repo/stamps-app
     - --region=asia-south1
     - --platform=managed
